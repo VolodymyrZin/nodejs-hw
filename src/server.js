@@ -8,10 +8,6 @@ const app = express();
 
 const PORT = process.env.PORT ?? 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 app.use(express.json());
 app.use(cors());
 app.use(
@@ -46,14 +42,17 @@ app.get('/notes', (req, res) =>
   res.status(200).json({ message: 'Retrieved all notes' }),
 );
 
-app.get('/notes/:noteId', (req, res) =>
-  res.status(200).json({ message: 'Retrieved note with ID: id_param' }),
-);
+app.get('/notes/:noteId', (req, res) => {
+  const { noteId } = req.params;
 
+  res.status(200).json({
+    message: `Retrieved note with ID: ${noteId}`,
+  });
+});
 // Маршрут для тестування middleware помилки
 app.get('/test-error', (req, res) => {
   // Штучна помилка для прикладу
-  throw new Error('Something went wrong');
+  throw new Error('Simulated server error');
 });
 
 // Middleware 404 (після всіх маршрутів)
@@ -65,10 +64,8 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error(err);
 
-  const isProd = process.env.NODE_ENV === 'production';
-
   res.status(500).json({
-    message: isProd ? 'повідомлення про помилку' : err.message,
+    message: err.message,
   });
 });
 
