@@ -33,11 +33,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Кореневий маршрут
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello, World!' });
-});
-
 app.get('/notes', (req, res) =>
   res.status(200).json({ message: 'Retrieved all notes' }),
 );
