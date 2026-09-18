@@ -38,7 +38,7 @@ export const getAllNotes = async (req, res) => {
   });
 };
 
-// Отримати одного студента за id
+// Отримати одну нотатку за id
 export const getNoteById = async (req, res) => {
   const { noteId } = req.params;
   const note = await Note.findById(noteId);
